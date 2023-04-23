@@ -1,0 +1,162 @@
+{
+    "version": "0.2.0",
+    "inputs": [
+      {
+        "type": "pickString",
+        "id": "app",
+        "description": "What app are you working with?",
+        "options": [
+          "led-roulette",
+          "led-compass",
+          "uart",
+          "i2c",
+        ],
+        "default": "led-compass"
+      },
+    ],
+    "configurations": [
+      {
+        "preLaunchTask": "${defaultBuildTask}",
+        //"preLaunchTask": "Cargo build",
+        "type": "probe-rs-debug",
+        "request": "launch",
+        "name": "debug - probe_rs",
+        "chip": "nRF52833_xxAA",
+        "cwd": "${workspaceFolder}",
+        "connectUnderReset": false,
+        "flashingConfig": {
+            "flashingEnabled": true,
+            "resetAfterFlashing": true,
+            "haltAfterReset": false
+        },
+        "coreConfigs": [
+          {
+                "coreIndex": 0,
+                "programBinary": "${workspaceFolder}/target/thumbv7em-none-eabihf/debug/${input:app}"
+          }
+        ],
+        //"consoleLogLevel": "Console" //Info, Debug
+        "consoleLogLevel": "Console" //Info, Debug
+      },
+      {
+        "preLaunchTask": "Cargo build",
+        "name": "debug - openocd",
+        "cwd": "${workspaceFolder}",
+        "executable": "${workspaceFolder}/target/thumbv7em-none-eabihf/debug/${input:app}",
+        "request": "launch",
+        "type": "cortex-debug",
+        "servertype": "openocd",
+        "configFiles": [
+          "${workspaceRoot}/openocd.tcl"
+        ],
+        "gdbPath": "gdb-multiarch",
+        //"gdbTarget": "localhost:3333",
+        // If you have the Pico SDK installed, allows the
+        // display of the RP2040 CPU registers in VS Code
+        //"svdFile": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",
+        //"runToEntryPoint":"true",
+        "preLaunchCommands": [
+            "monitor init",
+            "monitor reset init",
+            "monitor halt",
+        ],
+        // Work around for stopping at main on restart
+        "postRestartCommands": [
+            "break main",
+            "continue"
+        ],
+      },
+      {
+        //"preLaunchTask": "${defaultBuildTask}",
+        "preLaunchTask": "Cargo flash run",
+        "type": "probe-rs-debug",
+        "request": "launch",
+        "name": "run - cargo flash",
+        "chip": "nRF52833_xxAA",
+        "cwd": "${workspaceFolder}",
+        "connectUnderReset": false,
+        "flashingConfig": {
+            "flashingEnabled": true,
+            "resetAfterFlashing": true,
+            "haltAfterReset": false
+        },
+        "coreConfigs": [
+          {
+                "coreIndex": 0,
+                "programBinary": "${workspaceFolder}/target/thumbv7em-none-eabihf/debug/${input:app}"
+          }
+        ],
+        //"consoleLogLevel": "Console" //Info, Debug
+        "consoleLogLevel": "Console" //Info, Debug
+      },
+      {
+        //"preLaunchTask": "${defaultBuildTask}",
+        "preLaunchTask": "Cargo flash release",
+        "type": "probe-rs-debug",
+        "request": "launch",
+        "name": "release - cargo flash",
+        "chip": "nRF52833_xxAA",
+        "cwd": "${workspaceFolder}",
+        "connectUnderReset": false,
+        "flashingConfig": {
+            "flashingEnabled": true,
+            "resetAfterFlashing": true,
+            "haltAfterReset": false
+        },
+        "coreConfigs": [
+          {
+                "coreIndex": 0,
+                "programBinary": "${workspaceFolder}/target/thumbv7em-none-eabihf/debug/${input:app}"
+          }
+        ],
+        //"consoleLogLevel": "Console" //Info, Debug
+        "consoleLogLevel": "Console" //Info, Debug
+      },
+      {
+        //"preLaunchTask": "${defaultBuildTask}",
+        "preLaunchTask": "Cargo embed run",
+        "type": "probe-rs-debug",
+        "request": "launch",
+        "name": "run - cargo embed",
+        "chip": "nRF52833_xxAA",
+        "cwd": "${workspaceFolder}",
+        "connectUnderReset": false,
+        "flashingConfig": {
+            "flashingEnabled": true,
+            "resetAfterFlashing": true,
+            "haltAfterReset": false
+        },
+        "coreConfigs": [
+          {
+                "coreIndex": 0,
+                "programBinary": "${workspaceFolder}/target/thumbv7em-none-eabihf/debug/${input:app}"
+          }
+        ],
+        //"consoleLogLevel": "Console" //Info, Debug
+        "consoleLogLevel": "Console" //Info, Debug
+      },
+      {
+        //"preLaunchTask": "${defaultBuildTask}",
+        "preLaunchTask": "Cargo embed release",
+        "type": "probe-rs-debug",
+        "request": "launch",
+        "name": "release - cargo embed",
+        "chip": "nRF52833_xxAA",
+        "cwd": "${workspaceFolder}",
+        "connectUnderReset": false,
+        "flashingConfig": {
+            "flashingEnabled": true,
+            "resetAfterFlashing": true,
+            "haltAfterReset": false
+        },
+        "coreConfigs": [
+          {
+                "coreIndex": 0,
+                "programBinary": "${workspaceFolder}/target/thumbv7em-none-eabihf/debug/${input:app}"
+          }
+        ],
+        //"consoleLogLevel": "Console" //Info, Debug
+        "consoleLogLevel": "Console" //Info, Debug
+      }
+  ]
+  }

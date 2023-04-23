@@ -21,6 +21,15 @@ pub struct Calibration {
     scale: Measurement,
     radius: u32,
 }
+impl Calibration {
+    pub fn new(center: Measurement, scale: Measurement, radius: u32) -> Self {
+        Self {
+            center: center,
+            scale: scale,
+            radius: radius,
+        }
+    }
+}
 
 impl Default for Calibration {
     fn default() -> Calibration {
